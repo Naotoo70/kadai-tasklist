@@ -23,6 +23,7 @@ public class CreateServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         String _token = request.getParameter("_token");
         if (_token != null && _token.equals(request.getSession().getId())) {
             EntityManager em = DBUtil.createEntityManager();
@@ -39,6 +40,7 @@ public class CreateServlet extends HttpServlet {
 
             em.persist(t);
             em.getTransaction().commit();
+            request.getSession().setAttribute("flush", "追加が完了しました。");
             em.close();
 
             response.sendRedirect(request.getContextPath() + "/index");
